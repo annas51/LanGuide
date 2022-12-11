@@ -1,0 +1,286 @@
+%%[
+VAR @ts, @tsDef, @ts_extkey, @ts_email, @ts_sub, @ts_statusCode, @ts_statusMsg, @errorCode
+
+
+set @Id = AttributeValue("_subscriberkey")
+SET @email_verify_link = Lookup("MasterDataExtension","IsNewsletterSub","SubscriberKey", @Id)
+SET @FirstName = Lookup("MasterDataExtension","FirstName","SubscriberKey", @Id)
+SET @EmailAddress = Lookup("MasterDataExtension","Email","SubscriberKey", @Id)
+SET @FormSubmit = RequestParameter("submitted")
+
+IF (@FormSubmit == "true" AND @id != "") THEN
+UpdateData("MasterDataExtension",1,"SubscriberKey", @Id, "IsNewsletterSub", "True")
+
+SET @ts = CreateObject("TriggeredSend")
+SET @tsDef = CreateObject("TriggeredSendDefinition")
+SET @ts_extkey = "121118"
+SET @ts_email = @EmailAddress
+SET @ts_subkey = @Id
+
+SetObjectProperty(@tsDef, "CustomerKey", @ts_extkey)
+SetObjectProperty(@ts, "TriggeredSendDefinition", @tsDef)
+
+SET @ts_sub = CreateObject("Subscriber")
+SetObjectProperty(@ts_sub, "EmailAddress", @ts_email)
+SetObjectProperty(@ts_sub, "SubscriberKey", @ts_subkey)
+AddObjectArrayItem(@ts, "Subscribers", @ts_sub)
+
+SET @ts_statusCode = InvokeCreate(@ts, @ts_statusMsg, @errorCode)
+
+
+SET @ll_sub = CreateObject("Subscriber")
+SetObjectProperty(@ll_sub, "EmailAddress", @EmailAddress)
+SetObjectProperty(@ll_sub, "SubscriberKey", @Id)
+
+
+set @subscription = CreateObject("SubscriberList")
+SetObjectProperty( @subscription, "ID", "3244")
+SetObjectProperty( @subscription, "IDSpecified", "true" )
+SetObjectProperty( @subscription, "Status", "Active" )
+SetObjectProperty( @subscription, "StatusSpecified", "true" )
+AddObjectArrayItem( @ll_sub, "Lists", @subscription )
+
+SET @ll_statusCode = InvokeUpdate(@ll_sub, @ll_statusMsg, @errorCode)
+
+ELSEIF (@FormSubmit == "true" AND @Id == "") THEN
+set @leadFirstName = RequestParameter("firstname")
+set @leadLastName = RequestParameter("lastname")
+set @leadGender = RequestParameter("gender")
+set @leadEmail = RequestParameter("email")
+set @leadId = CreateSalesforceObject(
+"Lead", 5,
+"FirstName", @leadFirstName,
+"LastName", @leadLastName,
+"Status", "Open - Not Contacted",
+"Gender__c", @leadGender,
+"Email", @leadEmail
+)
+InsertDE("MasterDataExtension", "FirstName", @leadFirstName, "LastName", @leadLastName, "Gender", @leadGender, "Email",
+@leadEmail, "IsNewsletterSub", "True", "SubscriberKey", Concat("SUB", @leadId))
+
+SET @ts = CreateObject("TriggeredSend")
+SET @tsDef = CreateObject("TriggeredSendDefinition")
+SET @ts_extkey = "121275"
+SET @ts_email = @leadEmail
+SET @ts_subkey = Concat("SUB", @leadId)
+
+SetObjectProperty(@tsDef, "CustomerKey", @ts_extkey)
+SetObjectProperty(@ts, "TriggeredSendDefinition", @tsDef)
+
+SET @ts_sub = CreateObject("Subscriber")
+SetObjectProperty(@ts_sub, "EmailAddress", @ts_email)
+SetObjectProperty(@ts_sub, "SubscriberKey", @ts_subkey)
+AddObjectArrayItem(@ts, "Subscribers", @ts_sub)
+
+SET @ts_statusCode = InvokeCreate(@ts, @ts_statusMsg, @errorCode)
+
+
+ENDIF
+]%%
+%%[IF (@Id != "" AND @FormSubmit != "true") THEN ]%%
+<title>Newsletter Subscription
+</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://mc4ysf601b734wwpkwz81pbkx1p0.pub.sfmc-content.com/amknrxfvrrm">
+<link rel="icon"
+    href="https://image.s50.sfmc-content.com/lib/fe2d11707564047a7c1277/m/1/b6d1758f-5a68-41b9-8c7c-4e2a5baec3d9.png">
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section">
+                </h2>
+            </div>
+        </div>
+        <div class="row justify-content-center"
+            style="background-color: #FCE6E8; background-image: url('https://image.s50.sfmc-content.com/lib/fe2d11707564047a7c1277/m/1/ad2761f9-4e28-4491-99f5-869dbfcdeb42.png'); background-size: cover; background-repeat: no-repeat; background-position: right; border-radius: 10px">
+            <div class="col-lg-12">
+                <div class="wrapper img">
+                    <div class="row">
+                        <div class="col-md-9 col-lg-7">
+                            <div class="contact-wrap w-100 p-md-5 p-4">
+                                <h1 class="mb-3" style="color: #E63946; font-weight: bold">Stay tuned!
+                                </h1>
+                                <h6 class="mb-1" style="color: #1D3557;">Sing up here to get the latest news,
+                                    <br> updates and special offers delivered
+                                    <br> to your inbox.
+                                </h6>
+                                <div id="form-message-warning" class="mb-4">
+                                </div>
+                                <div id="form-message-success" class="mb-4">
+                                    Your message was sent, thank you!
+                                </div>
+                                <form method="POST" id="contactForm" name="contactForm" class="contactForm"
+                                    action="%%=RequestParameter('PAGEURL')=%%">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="label" for="name">First Name</label>
+                                                <input type="text" class="form-control" name="name" id="name"
+                                                    placeholder="Name" value="%%=v(@FirstName)=%%" disabled="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="label" for="email">Email Address</label>
+                                                <input type="email" class="form-control" name="email" id="email"
+                                                    placeholder="Email" value="%%=v(@emailaddress)=%%" disabled="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    id="flexCheckDefault" required="">
+                                                <label class="form-check-label" for="flexCheckDefault"
+                                                    style="color: #143465; font-size: 14px">
+                                                    I agree to recive e-mails from your company and your terms and
+                                                    conditions.
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input name="submitted" type="hidden" value="true">
+                                                <input type="submit" value="JOIN THE LIST" class="btn btn-primary"
+                                                    style="bottom: -30px;font-weight: bold">
+                                                <div class="submitting">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+%%[ ELSEIF (@Id == "" AND @FormSubmit != "true") THEN ]%%
+<title>Newsletter Subscription
+</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://mc4ysf601b734wwpkwz81pbkx1p0.pub.sfmc-content.com/amknrxfvrrm">
+<link rel="icon"
+    href="https://image.s50.sfmc-content.com/lib/fe2d11707564047a7c1277/m/1/b6d1758f-5a68-41b9-8c7c-4e2a5baec3d9.png">
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center"
+            style="background-color: #FCE6E8; background-image: url('https://image.s50.sfmc-content.com/lib/fe2d11707564047a7c1277/m/1/ad2761f9-4e28-4491-99f5-869dbfcdeb42.png'); background-size: cover; background-repeat: no-repeat; background-position: right; border-radius: 10px">
+            <div class="col-lg-12">
+                <div class="wrapper img">
+                    <div class="row">
+                        <div class="col-md-9 col-lg-7">
+                            <div class="contact-wrap w-100 p-md-5 p-4">
+                                <h1 class="mb-3" style="color: #E63946; font-weight: bold">Stay tuned!
+                                </h1>
+                                <h6 class="mb-1" style="color: #1D3557;">Sing up here to get the latest news,
+                                    <br>
+                                    updates and special offers delivered
+                                    <br> to your inbox.
+                                </h6>
+                                <div id="form-message-warning" class="mb-4">
+                                </div>
+                                <div id="form-message-success" class="mb-4">
+                                    Your message was sent, thank you!
+                                </div>
+                                <form method="POST" id="contactForm" name="contactForm" class="contactForm"
+                                    action="%%=RequestParameter('PAGEURL')=%%">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="label" for="name">First Name</label>
+                                                <input type="text" class="form-control" name="firstname" id="name"
+                                                    placeholder="First name" value="%%=v(@FirstName)=%%">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="label" for="name">Last Name</label>
+                                                <input type="text" class="form-control" name="lastname" id="name"
+                                                    placeholder="Last name" value="%%=v(@LastName)=%%" required="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="label" for="email">Email Address</label>
+                                                <input type="email" class="form-control" name="email" id="email"
+                                                    placeholder="Email" value="%%=v(@EmailAddress)=%%" required="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <label class="label" for="gender">What is your gender?</label>
+                                            <br>
+                                            <input type="radio" name="gender" value="male"> Male
+                                            <input type="radio" name="gender" value="female" class="ml-5"> Female
+                                            <input type="radio" name="gender" value="other" class="ml-5"> Other
+                                        </div>
+                                        <div class="col-md-10 mt-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    id="flexCheckDefault" required="">
+                                                <label class="form-check-label" for="flexCheckDefault"
+                                                    style="color: #143465; font-size: 14px">
+                                                    I agree to recive e-mails from your company and your terms and
+                                                    conditions.
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input name="submitted" type="hidden" value="true">
+                                                <input type="submit" value="JOIN THE LIST" class="btn btn-primary"
+                                                    style="bottom: -30px;font-weight: bold">
+                                                <div class="submitting">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+%%[ ELSEIF @FormSubmit == "true" THEN ]%%
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link rel="stylesheet" href="https://mc4ysf601b734wwpkwz81pbkx1p0.pub.sfmc-content.com/amknrxfvrrm">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title></title>
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400|Montserrat:700" rel="stylesheet" type="text/css">
+<style>
+    @import url(//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css);
+    @import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
+</style>
+<link rel="stylesheet" href="https://2-22-4-dot-lead-pages.appspot.com/static/lp918/min/default_thank_you.css">
+<script src="https://2-22-4-dot-lead-pages.appspot.com/static/lp918/min/jquery-1.9.1.min.js"></script>
+<script src="https://2-22-4-dot-lead-pages.appspot.com/static/lp918/min/html5shiv.js"></script>
+<section
+    style="background: rgb(230,57,70);
+background: linear-gradient(135deg, rgba(230,57,70,1) 10%, rgba(239,239,239,1) 10%, rgba(239,239,239,1) 90%, rgba(29,53,87,1) 90%, rgba(29,53,87,1) 90%);">
+
+    <header class="site-header" id="header" style="top: 5%">
+        <h1 class="site-header__title" data-lead-id="site-header-title">THANK YOU!</h1>
+    </header>
+
+    <div class="main-content">
+        <i class="fa fa-check main-content__checkmark" id="checkmark"></i>
+        <h1 style="color: #E63946">for signing up to recive our emails.<br> As a new member, you'll enjoy:</h1>
+        <p class="main-content__body" data-lead-id="main-content-body">special offers and exclusive deals / exciting new
+            product announcements / our unique take on the latest clothing trends</p>
+        <input type="submit" value="GO HOME" class="btn btn-primary" style="bottom: -30px;font-weight: bold">
+    </div>
+
+    <footer class="site-footer" id="footer">
+        <p class="site-footer__fineprint">BKRS ©2022 | All Rights Reserved</p>
+    </footer>
+</section>
+
+%%[ ENDIF ]%%
