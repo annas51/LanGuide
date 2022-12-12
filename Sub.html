@@ -4,7 +4,7 @@
 VAR @ts, @tsDef, @ts_extkey, @ts_email, @ts_sub, @ts_statusCode, @ts_statusMsg, @errorCode
 
 
-set @Id = AttributeValue("_subscriberkey")
+set @Id = AttributeValue("SubscriberKey")
 SET @email_verify_link = Lookup("MasterDataExtension","IsNewsletterSub","SubscriberKey", @Id)
 SET @FirstName = Lookup("MasterDataExtension","FirstName","SubscriberKey", @Id)
 SET @EmailAddress = Lookup("MasterDataExtension","Email","SubscriberKey", @Id)
@@ -15,7 +15,7 @@ UpdateData("MasterDataExtension",1,"SubscriberKey", @Id, "IsNewsletterSub", "Tru
 
 SET @ts = CreateObject("TriggeredSend")
 SET @tsDef = CreateObject("TriggeredSendDefinition")
-SET @ts_extkey = "121118"
+SET @ts_extkey = "2115"
 SET @ts_email = @EmailAddress
 SET @ts_subkey = @Id
 
