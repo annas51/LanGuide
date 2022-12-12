@@ -4,7 +4,7 @@
 VAR @ts, @tsDef, @ts_extkey, @ts_email, @ts_sub, @ts_statusCode, @ts_statusMsg, @errorCode
 
 
-set @Id = AttributeValue("SubscriberKey")
+set @Id = AttributeValue("_subscriberkey")
 SET @email_verify_link = Lookup("MasterDataExtension","IsNewsletterSub","SubscriberKey", @Id)
 SET @FirstName = Lookup("MasterDataExtension","FirstName","SubscriberKey", @Id)
 SET @EmailAddress = Lookup("MasterDataExtension","Email","SubscriberKey", @Id)
