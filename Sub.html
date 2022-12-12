@@ -64,167 +64,209 @@ SET @ts_statusCode = InvokeCreate(@ts, @ts_statusMsg, @errorCode)
 ENDIF
 ]%%
 %%[IF (@Id != "" AND @FormSubmit != "true") THEN ]%%
-  <head>
-    <title>Simple login form</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-    <style>
-      html, body {
-      display: flex;
-      justify-content: center;
-      font-family: Roboto, Arial, sans-serif;
-      font-size: 15px;
-      }
-      form {
-      border: 5px solid #f1f1f1;
-      }
-      input[type=text], input[type=password] {
-      width: 100%;
-      padding: 16px 8px;
-      margin: 8px 0;
-      display: inline-block;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-      }
-      button {
-      background-color: #8ebf42;
-      color: white;
-      padding: 14px 0;
-      margin: 10px 0;
-      border: none;
-      cursor: grabbing;
-      width: 100%;
-      }
-	  .form-check-input:disabled ~ .form-check-label {
-  color: #6c757d;
-}
-.was-validated .form-check-input:valid ~ .form-check-label,
-.form-check-input.is-valid ~ .form-check-label {
-  color: #28a745;
-}
-.was-validated .form-check-input:invalid ~ .form-check-label,
-.form-check-input.is-invalid ~ .form-check-label {
-  color: #dc3545;
-}
-.form-check-input:disabled ~ .form-check-label {
-  color: #6c757d;
-}
-
-.form-check-label {
-  margin-bottom: 0;
-}
-.form-check-label {
-  margin-bottom: 0;
-}
-      h1 {
-      text-align:center;
-      fone-size:18;
-      }
-      button:hover {
-      opacity: 0.8;
-      }
-      .formcontainer {
-      text-align: left;
-      margin: 24px 50px 12px;
-      }
-      .container {
-      padding: 16px 0;
-      text-align:left;
-      }
-      span.psw {
-      float: right;
-      padding-top: 0;
-      padding-right: 15px;
-      }
-      /* Change styles for span on extra small screens */
-      @media screen and (max-width: 300px) {
-      span.psw {
-      display: block;
-      float: none;
-      }
-	  .form-group {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-flex-flow: row wrap;
-    flex-flow: row wrap;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    margin-bottom: 0;
-  }
-    </style>
-  </head>
-  <section>
-  <form method="POST" id="contactForm" name="contactForm" class="contactForm"
+ <title>Newsletter Subscription
+</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://mc4ysf601b734wwpkwz81pbkx1p0.pub.sfmc-content.com/amknrxfvrrm">
+<link rel="icon"
+    href="https://image.s50.sfmc-content.com/lib/fe2d11707564047a7c1277/m/1/b6d1758f-5a68-41b9-8c7c-4e2a5baec3d9.png">
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section">
+                </h2>
+            </div>
+        </div>
+        <div class="row justify-content-center"
+            style="background-color: #FCE6E8; background-image: url('https://image.s50.sfmc-content.com/lib/fe2d11707564047a7c1277/m/1/ad2761f9-4e28-4491-99f5-869dbfcdeb42.png'); background-size: cover; background-repeat: no-repeat; background-position: right; border-radius: 10px">
+            <div class="col-lg-12">
+                <div class="wrapper img">
+                    <div class="row">
+                        <div class="col-md-9 col-lg-7">
+                            <div class="contact-wrap w-100 p-md-5 p-4">
+                                <h1 class="mb-3" style="color: #E63946; font-weight: bold">Stay tuned!
+                                </h1>
+                                <h6 class="mb-1" style="color: #1D3557;">Sing up here to get the latest news,
+                                    <br> updates and special offers delivered
+                                    <br> to your inbox.
+                                </h6>
+                                <div id="form-message-warning" class="mb-4">
+                                </div>
+                                <div id="form-message-success" class="mb-4">
+                                    Your message was sent, thank you!
+                                </div>
+                                <form method="POST" id="contactForm" name="contactForm" class="contactForm"
                                     action="%%=RequestParameter('PAGEURL')=%%">
-      <h1>Login Form</h1>
-      <div class="formcontainer">
-      <hr/>
-      <div class="container">
-			<label for="uname"><strong>First Name</strong></label>
-			<input type="text" class="form-control" name="firstname" id="name"
-					placeholder="FirstName" value="%%=v(@FirstName)=%%" disabled="">
-			<label for="uname"><strong>Last Name</strong></label>
-			<input type="text" class="form-control" name="lastname" id="name"
-			placeholder="Last name" value="%%=v(@LastName)=%%" disabled="">
-			<label for="uname"><strong>Email Address</strong></label>
-			<input type="text" class="form-control" name="email" id="name"
-			placeholder="Email" value="%%=v(@emailaddress)=%%" disabled="">
-
-      </div>
-	  
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value=""
-          id="flexCheckDefault" required="">
-          <label class="form-check-label" for="flexCheckDefault"
-           style="color: #143465; font-size: 14px">
-             I agree to recive e-mails from your company and your terms and
-              conditions.
-              </label>
-         </div>
-		  <div class="form-group">
-             <input name="submitted" type="hidden" value="true">
-                <input type="submit" value="JOIN THE LIST" class="btn btn-primary"
-                     style="bottom: -30px;font-weight: bold">
-                <div class="submitting">
-                   </div>
-             </div>
-    </form>
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="label" for="name">First Name</label>
+                                                <input type="text" class="form-control" name="name" id="name"
+                                                    placeholder="Name" value="%%=v(@FirstName)=%%" disabled="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="label" for="email">Email Address</label>
+                                                <input type="email" class="form-control" name="email" id="email"
+                                                    placeholder="Email" value="%%=v(@emailaddress)=%%" disabled="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    id="flexCheckDefault" required="">
+                                                <label class="form-check-label" for="flexCheckDefault"
+                                                    style="color: #143465; font-size: 14px">
+                                                    I agree to recive e-mails from your company and your terms and
+                                                    conditions.
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input name="submitted" type="hidden" value="true">
+                                                <input type="submit" value="JOIN THE LIST" class="btn btn-primary"
+                                                    style="bottom: -30px;font-weight: bold">
+                                                <div class="submitting">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
-
+%%[ ELSEIF (@Id == "" AND @FormSubmit != "true") THEN ]%%
+<title>Newsletter Subscription
+</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://mc4ysf601b734wwpkwz81pbkx1p0.pub.sfmc-content.com/amknrxfvrrm">
+<link rel="icon"
+    href="https://image.s50.sfmc-content.com/lib/fe2d11707564047a7c1277/m/1/b6d1758f-5a68-41b9-8c7c-4e2a5baec3d9.png">
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center"
+            style="background-color: #FCE6E8; background-image: url('https://image.s50.sfmc-content.com/lib/fe2d11707564047a7c1277/m/1/ad2761f9-4e28-4491-99f5-869dbfcdeb42.png'); background-size: cover; background-repeat: no-repeat; background-position: right; border-radius: 10px">
+            <div class="col-lg-12">
+                <div class="wrapper img">
+                    <div class="row">
+                        <div class="col-md-9 col-lg-7">
+                            <div class="contact-wrap w-100 p-md-5 p-4">
+                                <h1 class="mb-3" style="color: #E63946; font-weight: bold">Stay tuned!
+                                </h1>
+                                <h6 class="mb-1" style="color: #1D3557;">Sing up here to get the latest news,
+                                    <br>
+                                    updates and special offers delivered
+                                    <br> to your inbox.
+                                </h6>
+                                <div id="form-message-warning" class="mb-4">
+                                </div>
+                                <div id="form-message-success" class="mb-4">
+                                    Your message was sent, thank you!
+                                </div>
+                                <form method="POST" id="contactForm" name="contactForm" class="contactForm"
+                                    action="%%=RequestParameter('PAGEURL')=%%">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="label" for="name">First Name</label>
+                                                <input type="text" class="form-control" name="firstname" id="name"
+                                                    placeholder="First name" value="%%=v(@FirstName)=%%">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="label" for="name">Last Name</label>
+                                                <input type="text" class="form-control" name="lastname" id="name"
+                                                    placeholder="Last name" value="%%=v(@LastName)=%%" required="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="label" for="email">Email Address</label>
+                                                <input type="email" class="form-control" name="email" id="email"
+                                                    placeholder="Email" value="%%=v(@EmailAddress)=%%" required="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <label class="label" for="gender">What is your gender?</label>
+                                            <br>
+                                            <input type="radio" name="gender" value="male"> Male
+                                            <input type="radio" name="gender" value="female" class="ml-5"> Female
+                                            <input type="radio" name="gender" value="other" class="ml-5"> Other
+                                        </div>
+                                        <div class="col-md-10 mt-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    id="flexCheckDefault" required="">
+                                                <label class="form-check-label" for="flexCheckDefault"
+                                                    style="color: #143465; font-size: 14px">
+                                                    I agree to recive e-mails from your company and your terms and
+                                                    conditions.
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input name="submitted" type="hidden" value="true">
+                                                <input type="submit" value="JOIN THE LIST" class="btn btn-primary"
+                                                    style="bottom: -30px;font-weight: bold">
+                                                <div class="submitting">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 %%[ ELSEIF @FormSubmit == "true" THEN ]%%
-<section>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title></title>
-	<link href='https://fonts.googleapis.com/css?family=Lato:300,400|Montserrat:700' rel='stylesheet' type='text/css'>
-	<style>
-		@import url(//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css);
-		@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
-	</style>
-	<link rel="stylesheet" href="https://2-22-4-dot-lead-pages.appspot.com/static/lp918/min/default_thank_you.css">
-	<script src="https://2-22-4-dot-lead-pages.appspot.com/static/lp918/min/jquery-1.9.1.min.js"></script>
-	<script src="https://2-22-4-dot-lead-pages.appspot.com/static/lp918/min/html5shiv.js"></script>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link rel="stylesheet" href="https://mc4ysf601b734wwpkwz81pbkx1p0.pub.sfmc-content.com/amknrxfvrrm">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title></title>
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400|Montserrat:700" rel="stylesheet" type="text/css">
+<style>
+    @import url(//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css);
+    @import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
+</style>
+<link rel="stylesheet" href="https://2-22-4-dot-lead-pages.appspot.com/static/lp918/min/default_thank_you.css">
+<script src="https://2-22-4-dot-lead-pages.appspot.com/static/lp918/min/jquery-1.9.1.min.js"></script>
+<script src="https://2-22-4-dot-lead-pages.appspot.com/static/lp918/min/html5shiv.js"></script>
+<section
+    style="background: rgb(230,57,70);
+background: linear-gradient(135deg, rgba(230,57,70,1) 10%, rgba(239,239,239,1) 10%, rgba(239,239,239,1) 90%, rgba(29,53,87,1) 90%, rgba(29,53,87,1) 90%);">
 
+    <header class="site-header" id="header" style="top: 5%">
+        <h1 class="site-header__title" data-lead-id="site-header-title">THANK YOU!</h1>
+    </header>
 
-	<header class="site-header" id="header">
-		<h1 class="site-header__title" data-lead-id="site-header-title">THANK YOU!</h1>
-	</header>
+    <div class="main-content">
+        <i class="fa fa-check main-content__checkmark" id="checkmark"></i>
+        <h1 style="color: #E63946">for signing up to recive our emails.<br> As a new member, you'll enjoy:</h1>
+        <p class="main-content__body" data-lead-id="main-content-body">special offers and exclusive deals / exciting new
+            product announcements / our unique take on the latest clothing trends</p>
+        <input type="submit" value="GO HOME" class="btn btn-primary" style="bottom: -30px;font-weight: bold">
+    </div>
 
-	<div class="main-content">
-		<i class="fa fa-check main-content__checkmark" id="checkmark"></i>
-		<p class="main-content__body" data-lead-id="main-content-body">Thanks a bunch for filling that out. It means a lot to us, just like you do! We really appreciate you giving us a moment of your time today. Thanks for being you.</p>
-	</div>
-
-	<footer class="site-footer" id="footer">
-		<p class="site-footer__fineprint" id="fineprint">Copyright ©2014 | All Rights Reserved</p>
-	</footer>
+    <footer class="site-footer" id="footer">
+        <p class="site-footer__fineprint">BKRS ©2022 | All Rights Reserved</p>
+    </footer>
 </section>
 
 %%[ ENDIF ]%%
