@@ -30,7 +30,7 @@
             console.log('im here onchange');
             // Get the name input value
             const nameInput = document.getElementById("name");
-            nameInput.value = nameInput.value.replace(/[^a-zA-Z0-9 ]/g, ' ');
+            nameInput.value = nameInput.value.replace(/[^a-zA-Z0-9 ]/g, '-');
 
             const name = nameInput.value.trim(); // Trim any leading/trailing spaces
             
