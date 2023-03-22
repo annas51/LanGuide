@@ -3,7 +3,7 @@
   <body>
     
 <form action="http://www3.lenoxsoft.com/l/5336/2023-03-22/2jm27t" method="post" onsubmit="splitName()">
-     <label for="name">Name1:</label>
+     <label for="name">Name12</label>
         <input style="text-transform: capitalize;" type="text" id="name" required>
         <input type="hidden" id="firstName" name="firstName">
         <input type="hidden" id="lastName" name="lastName">
@@ -30,7 +30,7 @@
             console.log('im here onchange');
             // Get the name input value
             const nameInput = document.getElementById("name");
-            nameInput.value = nameInput.value.replace(/[^a-zA-Z-]/g, '');
+            nameInput.value = nameInput.value.replace(/[^a-zA-Z ]/g, '');
 
             const name = nameInput.value.trim(); // Trim any leading/trailing spaces
             
@@ -40,7 +40,7 @@
 
             // Set the first name and last name inputs
             const firstNameInput = document.getElementById("firstName");
-            firstNameInput.value = nameArray.slice(0, -1).join(" ");
+            firstNameInput.value = nameArray.slice(0, -1).join("");
 
             const lastNameInput = document.getElementById("lastName");
             lastNameInput.value = nameArray[nameArray.length - 1];
